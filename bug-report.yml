@@ -1,0 +1,28 @@
+---
+-
+  name: 
+  hosts: all
+  gather_facts: false
+  connection: local
+  vars:
+    project_name: bug-report
+    present_variables_file: "{{ role_path }}/files/{{ project_name }}/environment_variables.yml"
+    present_variables: "{{ lookup('file', present_variables_file, errors='ignore') }}"
+    absent_variables_file: "{{ role_path }}/files/{{ project_name }}/absent_variables.yml"
+    absent_variables: "{{ lookup('file', absent_variables_file, errors='ignore') }}"
+  collections:
+    - community.general
+
+  tasks:
+    - name: Set working directory
+      set_fact:
+        working_directory: "{{ project_name }}"
+      tags:
+        - always
+
+    - name: Template files
+      include_role:
+        name: templating-role
+        apply:
+          tags:
+            - always

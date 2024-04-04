@@ -1,0 +1,13 @@
+---
+- name: Template files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ working_directory }}/{{ item.path | splitext | first }}"
+    mode: preserve
+    trim_blocks: no
+  with_filetree: '{{ role_path }}/files/{{ project_name }}/templates'
+  when: item.state == 'file'
+
+- name: Pause for confirmation of file contents
+  pause:
+    minutes: 5

@@ -1,0 +1,4 @@
+---
+- src: VCS
+  name: templating-role
+  
